@@ -11,7 +11,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/db/migrate.ts",
     "db:seed": "tsx src/db/seed.ts",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "mail:dispatch": "tsx src/db/dispatch.ts"
   },
   "dependencies": {
     "next": "^16.3.5",
