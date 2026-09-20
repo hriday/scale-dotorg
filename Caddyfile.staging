@@ -1,0 +1,47 @@
+# Staging TLS for a bare IP, before DNS exists.
+#
+# `tls internal` issues a certificate from Caddy's own local CA. Browsers will
+# warn that it is untrusted — that is expected and is the whole difference
+# between this and the real Caddyfile. It still gets real encryption on the
+# wire, so magic-link tokens are no longer sent in clear text.
+#
+# Replace with ./Caddyfile once DNS points at this host.
+
+{
+	# No public ACME issuance is possible for a bare IP.
+	auto_https disable_redirects
+
+	# Clients do not send SNI for a bare IP address (RFC 6066 forbids it), so
+	# without this the handshake fails before any site block can match.
+	default_sni 206.189.233.225
+}
+
+https://206.189.233.225 {
+	tls internal
+
+	encode zstd gzip
+
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	# Uploaded logos are access-checked by the app, so no shared caching.
+	header /logo/* Cache-Control "private, max-age=3600"
+
+	request_body {
+		max_size 8MB
+	}
+
+	reverse_proxy app:3000 {
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Forwarded-Proto {scheme}
+	}
+}
+
+# Send plain HTTP to HTTPS by hand, since auto-redirects are off.
+http://206.189.233.225 {
+	redir https://206.189.233.225{uri} permanent
+}

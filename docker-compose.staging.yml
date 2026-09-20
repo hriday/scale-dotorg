@@ -17,7 +17,8 @@ services:
     build: .
     restart: unless-stopped
     env_file: .env.production
-    ports: ['0.0.0.0:3000:3000']
+    # Loopback only: Caddy is the only thing that should reach the app.
+    ports: ['127.0.0.1:3000:3000']
     depends_on:
       db:
         condition: service_healthy
@@ -38,6 +39,16 @@ services:
       timeout: 5s
       retries: 10
 
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports: ['80:80', '443:443']
+    volumes:
+      - ./Caddyfile.staging:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on: [app]
+
   mailpit:
     image: axllent/mailpit:latest
     restart: unless-stopped
@@ -46,3 +57,5 @@ services:
 
 volumes:
   booths-db:
+  caddy-data:
+  caddy-config:
