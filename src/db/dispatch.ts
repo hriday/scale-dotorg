@@ -1,3 +1,4 @@
+import './load-env'
 import { closeDb } from './client'
 import { dispatchPending } from '@/services/mail/outbox'
 

@@ -1,4 +1,3 @@
-import { createHash, randomBytes } from 'node:crypto'
 import { eq } from 'drizzle-orm'
 import { getDb } from '@/db/client'
 import { applications, authTokens, emailTemplates, uploads } from '@/db/schema'
@@ -8,16 +7,9 @@ import { enqueueEmail } from '@/services/mail/outbox'
 import { renderTemplate } from '@/services/mail/render'
 import type { PreparedUpload } from '@/services/uploads'
 import type { ApplicationInput } from '@/validation/application'
+import { APPLICANT_TOKEN_DAYS, hashToken, newToken } from '@/services/auth/tokens'
 
-export const APPLICANT_TOKEN_DAYS = 7
-
-export function hashToken(token: string): string {
-  return createHash('sha256').update(token).digest('hex')
-}
-
-export function newToken(): string {
-  return randomBytes(32).toString('base64url')
-}
+export { APPLICANT_TOKEN_DAYS, hashToken, newToken }
 
 export async function createApplication(
   input: ApplicationInput,
