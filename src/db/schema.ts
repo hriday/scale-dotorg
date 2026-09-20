@@ -18,6 +18,15 @@ const bytea = customType<{ data: Buffer; driverData: Buffer }>({
   dataType: () => 'bytea',
 })
 
+/** Expo floor hours, as display strings so an admin can write "TBD" or "9:30 am". */
+export interface ExpoHourSlot {
+  day: string
+  opens: string
+  closes: string
+}
+
+export type ExpoHours = ExpoHourSlot[]
+
 export const applicationStatus = pgEnum('application_status', [
   'submitted',
   'under_review',
@@ -59,6 +68,7 @@ export const settings = pgTable(
     lateCancellationFeeCents: integer('late_cancellation_fee_cents').notNull().default(100000),
     termsText: text('terms_text').notNull(),
     termsVersion: integer('terms_version').notNull().default(1),
+    expoHours: jsonb('expo_hours').$type<ExpoHours>().notNull().default([]),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
     updatedBy: uuid('updated_by').references(() => admins.id),
   },

@@ -1,0 +1,1 @@
+ALTER TABLE "settings" ADD COLUMN "expo_hours" jsonb DEFAULT '[]'::jsonb NOT NULL;

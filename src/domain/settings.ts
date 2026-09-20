@@ -1,3 +1,16 @@
+import type { ExpoHours } from '@/db/schema'
+
+/**
+ * Seeded defaults only. Expo hours are admin-configured in settings, so these
+ * are a starting point, not the source of truth. The two opening times SCaLE
+ * has not published yet are marked TBD until an admin fills them in.
+ */
+export const DEFAULT_EXPO_HOURS: ExpoHours = [
+  { day: 'Friday, April 2', opens: '1:00 pm', closes: '5:00 pm' },
+  { day: 'Saturday, April 3', opens: 'TBD', closes: '5:00 pm' },
+  { day: 'Sunday, April 4', opens: 'TBD', closes: '12:00 pm' },
+]
+
 export type WindowState = 'before' | 'open' | 'closed'
 
 export interface ApplicationWindow {

@@ -8,6 +8,13 @@
       "when": 1789878694231,
       "tag": "0000_fast_vivisector",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789941178641,
+      "tag": "0001_broad_mad_thinker",
+      "breakpoints": true
     }
   ]
 }

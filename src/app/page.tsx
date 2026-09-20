@@ -87,7 +87,7 @@ export default async function Home() {
               </tr>
             </thead>
             <tbody>
-              {EVENT.expoHours.map((slot) => (
+              {settings.expoHours.map((slot) => (
                 <tr key={slot.day} className="border-b border-scale-rule/20">
                   <td className="py-2 pr-4">{slot.day}</td>
                   <td className="py-2 pr-4">{slot.opens}</td>
