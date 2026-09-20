@@ -1,0 +1,28 @@
+# Caddy terminates TLS and proxies to the app on loopback.
+# Point the DNS A/AAAA record at this host first; Caddy obtains the
+# certificate automatically on first request.
+
+booths.socallinuxexpo.org {
+	encode zstd gzip
+
+	# Uploaded logos are access-checked by the app, so no shared caching.
+	header /logo/* Cache-Control "private, max-age=3600"
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	# A 2 MB logo plus form fields; refuse anything wildly larger at the edge.
+	request_body {
+		max_size 8MB
+	}
+
+	reverse_proxy 127.0.0.1:3000 {
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Forwarded-Proto {scheme}
+	}
+}
