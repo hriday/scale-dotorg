@@ -15,14 +15,16 @@ RUN npm ci
 
 COPY . .
 
-# next build needs these present but never connects to anything.
-ENV DATABASE_URL=postgres://build:build@localhost:5432/build \
+# next build validates the environment but never connects to anything. These
+# are passed for the single build command rather than baked in as ENV, so no
+# placeholder value is carried into any layer.
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN DATABASE_URL=postgres://build:build@localhost:5432/build \
     SESSION_SECRET=build-time-placeholder-at-least-32-chars \
     PUBLIC_BASE_URL=http://localhost:3000 \
     MAIL_FROM=dotorgs@socallinuxexpo.org \
     EMAIL_SENDER=console \
-    NEXT_TELEMETRY_DISABLED=1
-RUN npm run build
+    npm run build
 
 
 FROM node:24-alpine AS runner

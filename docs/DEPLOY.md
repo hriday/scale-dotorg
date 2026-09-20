@@ -15,6 +15,19 @@ Logos live in the database, so `pg_dump` is the whole backup.
 Nothing else is outstanding. If the hostname differs from
 `booths.socallinuxexpo.org`, change it in `Caddyfile` and in `PUBLIC_BASE_URL`.
 
+## Verified
+
+The image has been built and run against an empty database: migrations applied,
+the production seed created the settings row, the templates and
+`bala@socallinuxexpo.org` and **no sample organizations**, the server came up,
+and the container's own mail worker delivered an admin sign-in link through SMTP
+on its 15-second timer. The dev-only `/api/dev/*` routes return 404 under
+`NODE_ENV=production`.
+
+What has *not* been exercised is SMTP2GO itself — locally that hop went to
+Mailpit. The first real send is the acceptance of your first application, so
+send yourself an admin invite before you announce the form.
+
 ## First deploy
 
 ```bash
