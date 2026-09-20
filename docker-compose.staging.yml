@@ -1,0 +1,48 @@
+# Staging: no DNS, no TLS, no SMTP2GO yet.
+#
+# Differs from production in two ways, both temporary:
+#   - the app is reachable over plain HTTP on :3000
+#   - mail goes to a local Mailpit instead of SMTP2GO
+#
+# Mailpit is bound to loopback deliberately. Anyone who can read the inbox can
+# read an admin sign-in link, which is the whole authentication system. Reach it
+# with:  ssh -L 8025:localhost:8025 root@<host>  then http://localhost:8025
+#
+#   docker compose --env-file .env.production -f docker-compose.staging.yml up -d --build
+
+name: scale-dotorg
+
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env.production
+    ports: ['0.0.0.0:3000:3000']
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: booths
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?pass --env-file .env.production}
+      POSTGRES_DB: booths
+    volumes:
+      - booths-db:/var/lib/postgresql/data
+      - ./backups:/backups
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U booths']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    # Loopback only: the inbox holds admin sign-in links.
+    ports: ['127.0.0.1:8025:8025']
+
+volumes:
+  booths-db:

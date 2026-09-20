@@ -1,5 +1,5 @@
 # Production stack. Bring up with:
-#   docker compose -f docker-compose.prod.yml up -d --build
+#   docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
 name: scale-dotorg
 
 services:
@@ -18,7 +18,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: booths
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?pass --env-file .env.production}
       POSTGRES_DB: booths
     volumes:
       - booths-db:/var/lib/postgresql/data

@@ -28,6 +28,28 @@ What has *not* been exercised is SMTP2GO itself — locally that hop went to
 Mailpit. The first real send is the acceptance of your first application, so
 send yourself an admin invite before you announce the form.
 
+## Current staging deployment
+
+`206.189.233.225` runs the stack now, at **http://206.189.233.225:3000**, using
+`docker-compose.staging.yml`. It differs from production in two ways, both
+waiting on you:
+
+- **Plain HTTP on port 3000.** No DNS yet, so no certificate. The session
+  cookie's Secure flag follows `PUBLIC_BASE_URL`'s scheme, so sign-in works —
+  but traffic is unencrypted, so treat it as a preview, not the real thing.
+- **Mail goes to Mailpit on the box, not SMTP2GO.** Nothing is delivered to a
+  real inbox. Mailpit is bound to loopback because its inbox contains admin
+  sign-in links; read it with an SSH tunnel:
+
+  ```bash
+  ssh -L 8025:localhost:8025 root@206.189.233.225
+  # then open http://localhost:8025
+  ```
+
+To promote it to production: point DNS at the host, set `PUBLIC_BASE_URL` to the
+https URL, set `EMAIL_SENDER=smtp2go` with `SMTP2GO_API_KEY`, switch to
+`docker-compose.prod.yml`, and put Caddy in front.
+
 ## First deploy
 
 ```bash
@@ -36,6 +58,11 @@ cd /srv/scale-dotorg
 
 cp .env.production.example .env.production
 ```
+
+Every compose command needs `--env-file .env.production`. Compose reads
+interpolation variables (`${POSTGRES_PASSWORD}`) from that flag or from a `.env`
+file — a service's `env_file:` only populates the container, not the compose
+file itself.
 
 Fill in `.env.production`:
 
@@ -51,8 +78,8 @@ Set `SEED_ON_START=true` for the first boot only. That creates the settings row,
 the email templates and the first admin (`bala@socallinuxexpo.org`). Then:
 
 ```bash
-docker compose -f docker-compose.prod.yml up -d --build
-docker compose -f docker-compose.prod.yml logs -f app
+docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
+docker compose --env-file .env.production -f docker-compose.prod.yml logs -f app
 ```
 
 Wait for `Applying database migrations...` then `Starting server...`. Check it:
@@ -62,7 +89,7 @@ curl -s localhost:3000/healthz     # {"status":"ok"}
 ```
 
 Now set `SEED_ON_START=false` in `.env.production` and
-`docker compose -f docker-compose.prod.yml up -d` to apply. Leaving it on is not
+`docker compose --env-file .env.production -f docker-compose.prod.yml up -d` to apply. Leaving it on is not
 destructive — the seed is idempotent — but it re-asserts the demo baseline on
 every restart, which you do not want once real applications exist.
 
@@ -107,7 +134,7 @@ is not a backup. Restore with:
 
 ```bash
 gunzip -c backups/booths-YYYYMMDD-HHMMSS.sql.gz | \
-  docker compose -f docker-compose.prod.yml exec -T db psql -U booths booths
+  docker compose --env-file .env.production -f docker-compose.prod.yml exec -T db psql -U booths booths
 ```
 
 Test a restore into a scratch database before you need one for real.
@@ -117,7 +144,7 @@ Test a restore into a scratch database before you need one for real.
 ```bash
 cd /srv/scale-dotorg
 git pull
-docker compose -f docker-compose.prod.yml up -d --build
+docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
 ```
 
 Migrations run automatically at container start, before the server accepts
