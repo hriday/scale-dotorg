@@ -3,6 +3,8 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getDb } from '@/db/client'
 import { admins, applications, sessions } from '@/db/schema'
+import { getEnv } from '@/env'
+import { cookieIsSecure } from './cookie'
 import { hashToken, newToken } from './tokens'
 
 export const ADMIN_COOKIE = 'booth_admin'
@@ -30,7 +32,7 @@ async function startSession(
   const store = await cookies()
   store.set(cookieName, raw, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: cookieIsSecure(getEnv().PUBLIC_BASE_URL),
     sameSite: 'lax',
     path: '/',
     expires: expiresAt,
