@@ -1,4 +1,4 @@
-import { STATUS_LABELS, type Status } from '@/domain/application'
+import { STATUS_LABELS, type Status } from '@/domain/status'
 
 const TONE: Record<Status, string> = {
   submitted: 'bg-scale-blue-pale/40 text-scale-blue-dark',

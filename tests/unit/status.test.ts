@@ -7,7 +7,7 @@ import {
   canTransition,
   isEditable,
   type Status,
-} from '@/domain/application'
+} from '@/domain/status'
 
 const ALL: Status[] = [
   'submitted', 'under_review', 'info_requested', 'waitlisted',
