@@ -1,6 +1,6 @@
 import { closeDb, getDb } from './client'
 import { admins, emailTemplates, settings } from './schema'
-import { DEFAULT_TERMS_TEXT } from '@/domain/settings'
+import { DEFAULT_EXPO_HOURS, DEFAULT_TERMS_TEXT } from '@/domain/settings'
 import { DEFAULT_TEMPLATES } from '@/services/mail/templates'
 
 async function main() {
@@ -21,6 +21,7 @@ async function main() {
       lateCancellationFeeCents: 100_000,
       termsText: DEFAULT_TERMS_TEXT,
       termsVersion: 1,
+      expoHours: [...DEFAULT_EXPO_HOURS],
     })
     // Upsert, not insert-or-ignore: re-running the seed re-asserts the demo baseline.
     .onConflictDoUpdate({
@@ -31,6 +32,7 @@ async function main() {
         boothCap: 40,
         lateCancellationFeeCents: 100_000,
         termsText: DEFAULT_TERMS_TEXT,
+        expoHours: [...DEFAULT_EXPO_HOURS],
       },
     })
 

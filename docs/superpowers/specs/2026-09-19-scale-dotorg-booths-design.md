@@ -380,22 +380,27 @@ TDD throughout.
 
 ## Open items
 
-Placeholders ship; these need your answers before launch, not before build.
+Answered 2026-09-20:
 
-1. **Expo floor opening times, Sat Apr 3 and Sun Apr 4.** Known: Fri Apr 2
-   13:00–17:00, Sat closes 17:00, Sun ends 12:00. The opening times are not on
-   the SCaLE site. Seeded as `TBD` in copy.
-2. **Program name.** SCaLE's own posts call these "booth grants" for open source
-   projects and community groups; the site has no ".Org Pavilion" page this
-   cycle. Building as **Community Booths**, easily renamed in one copy file.
-3. **Application deadline.** For 23x, booths were finalized in early January for
-   a March show. Seeded as **2027-01-15**, admin-editable.
-4. **Terms text** for the $1000 late-cancellation fee. Drafted below in the
-   house style of their existing cancellation policy; needs your redline.
+1. **Expo floor opening times — admin-configured.** Rather than hardcode them,
+   `settings.expoHours` holds the three days as display strings and the public
+   page renders whatever is there. Seeded as Fri Apr 2 1:00–5:00 pm, Sat Apr 3
+   `TBD`–5:00 pm, Sun Apr 4 `TBD`–12:00 pm. An admin replaces the two `TBD`s
+   once SCaLE publishes them; no deploy needed.
+2. **Terms text — admin-configured**, as already designed. `settings.termsText`
+   is the source of truth, the drafted wording below is only the seeded default,
+   and editing it bumps `termsVersion` while confirmations keep their snapshot.
+3. **Program name — "Community Booths"**, confirmed.
+4. **Application deadline.** Seeded 2027-01-15, admin-editable. For 23x, booths
+   were finalized in early January for a March show.
 5. **Prior art.** The existing nomination Google Form requires sign-in, so its
    exact questions could not be read. If the current fields matter, export it.
 
-### Drafted terms text (for redline)
+Because both (1) and (2) are admin-configured, the `/admin/settings` screen in
+Plan C must expose the application window, booth cap, fee amount, terms text
+**and the expo hours** — the hours are no longer editable any other way.
+
+### Drafted terms text (seeded default, admin-editable)
 
 > SCaLE provides community booth space, power, and basic booth furnishings at no
 > cost to your organization. In accepting a booth you agree to staff it during
