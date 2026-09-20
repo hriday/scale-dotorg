@@ -1,3 +1,6 @@
+# Pinned so container and volume names do not change if the folder is renamed.
+name: scale-dotorg
+
 services:
   db:
     image: postgres:17-alpine
