@@ -115,4 +115,19 @@ export const DEFAULT_TEMPLATES: TemplateDefinition[] = [
       `{{admin_url}}`,
     variables: ['org_name', 'admin_url'],
   },
+  {
+    key: 'admin_invite',
+    name: 'Admin invitation',
+    subject: 'You have been added as a {{event}} Community Booths admin',
+    body:
+      `Hi {{admin_name}},\n\n` +
+      `{{inviter_name}} has added you as an admin for {{event}} Community Booths, where we review ` +
+      `booth applications from open source projects and community groups.\n\n` +
+      `Sign in here:\n\n` +
+      `{{admin_url}}\n\n` +
+      `That link works once and expires in 30 minutes. After that, request a fresh one from the ` +
+      `sign-in page using this address.` +
+      SIGNOFF,
+    variables: ['admin_name', 'inviter_name', 'event', 'admin_url', 'contact_email'],
+  },
 ]

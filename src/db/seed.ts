@@ -43,6 +43,18 @@ async function main() {
   }
 
 
+  // Demo fixtures only. Production must never get fake organizations, so they
+  // are skipped unless explicitly asked for.
+  const wantSamples =
+    process.env.SEED_SAMPLES === 'true' ||
+    (process.env.NODE_ENV !== 'production' && process.env.SEED_SAMPLES !== 'false')
+
+  if (!wantSamples) {
+    await closeDb()
+    console.log('seeded: admin bala@socallinuxexpo.org, settings, templates (no sample data)')
+    return
+  }
+
   const SAMPLES = [
     ['Debian', 'debian.org', 'submitted'],
     ['PostgreSQL', 'postgresql.org', 'under_review'],

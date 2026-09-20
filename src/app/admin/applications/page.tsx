@@ -40,10 +40,16 @@ export default async function ApplicationList({
     <main className="mx-auto max-w-6xl px-6 py-10">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-3xl font-bold">Applications</h1>
-        <a href="/admin/export/applications.csv"
-          className="rounded border border-scale-blue px-4 py-2 font-semibold text-scale-blue hover:bg-scale-blue-pale/30">
-          Export CSV
-        </a>
+        <div className="flex gap-3">
+          <a href="/admin/export/applications.csv"
+            className="rounded border border-scale-blue px-4 py-2 font-semibold text-scale-blue hover:bg-scale-blue-pale/30">
+            Export CSV
+          </a>
+          <a href="/admin/export/logos.zip"
+            className="rounded border border-scale-blue px-4 py-2 font-semibold text-scale-blue hover:bg-scale-blue-pale/30">
+            Logos ZIP
+          </a>
+        </div>
       </div>
 
       <form className="mt-6 flex flex-wrap items-end gap-4" method="get">
