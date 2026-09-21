@@ -42,30 +42,17 @@ and HSTS is set for a year.
 | `./Caddyfile` | `booths.socallinuxexpo.org` | Let's Encrypt (current) |
 | `./Caddyfile.staging` | the bare IP | Caddy's local CA (before DNS) |
 
-**One thing is still not production:** mail goes to Mailpit on the box, not
-SMTP2GO, so nothing reaches a real inbox. Mailpit is bound to loopback because
-its inbox holds admin sign-in links — read it with a tunnel:
+Mail goes out through **SMTP2GO** as `dotorgs@socallinuxexpo.org`. Verified by
+submitting a real application and watching the receipt email reach `sent` with a
+provider message id on the first attempt.
 
-```bash
-ssh -L 8025:localhost:8025 root@206.189.233.225
-# then open http://localhost:8025
-```
+The API key is scoped to sending only, so it cannot call `/v3/activity/search`.
+That means delivery to an inbox cannot be confirmed from the server — only that
+SMTP2GO accepted the message. If mail ever seems to vanish, check the SMTP2GO
+dashboard rather than looking for it in the database.
 
-### Finishing it
-
-Once `dotorgs@socallinuxexpo.org` is a verified sender in SMTP2GO, on the host:
-
-```bash
-cd /srv/scale-dotorg
-sed -i 's/^EMAIL_SENDER=.*/EMAIL_SENDER=smtp2go/' .env.production
-echo 'SMTP2GO_API_KEY=...' >> .env.production
-docker compose --env-file .env.production -f docker-compose.staging.yml up -d
-```
-
-The app refuses to boot if `EMAIL_SENDER=smtp2go` without a key, so a typo fails
-loudly rather than silently dropping acceptance mail. Send yourself an admin
-invite as the first real send, before any applicant depends on it. Mailpit can
-then be dropped from the compose file, or left as-is and ignored.
+Mailpit is still in the compose file and now receives nothing. It is bound to
+loopback and harmless; drop the service whenever you like.
 
 ## First deploy
 
