@@ -1,6 +1,9 @@
-# Caddy terminates TLS and proxies to the app on loopback.
-# Point the DNS A/AAAA record at this host first; Caddy obtains the
-# certificate automatically on first request.
+# Production TLS. Caddy obtains a real certificate from Let's Encrypt on first
+# request, which needs the DNS record pointing here and port 80 reachable for
+# the ACME challenge.
+#
+# Mounted by docker-compose.staging.yml once DNS exists; before that,
+# Caddyfile.staging serves the bare IP with Caddy's local CA instead.
 
 booths.socallinuxexpo.org {
 	encode zstd gzip
@@ -21,7 +24,9 @@ booths.socallinuxexpo.org {
 		max_size 8MB
 	}
 
-	reverse_proxy 127.0.0.1:3000 {
+	# Caddy runs as a service in the same compose project, so the app is
+	# reached by service name, not loopback.
+	reverse_proxy app:3000 {
 		header_up X-Forwarded-For {remote_host}
 		header_up X-Forwarded-Proto {scheme}
 	}

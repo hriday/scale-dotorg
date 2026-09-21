@@ -28,39 +28,44 @@ What has *not* been exercised is SMTP2GO itself — locally that hop went to
 Mailpit. The first real send is the acceptance of your first application, so
 send yourself an admin invite before you announce the form.
 
-## Current staging deployment
+## Current deployment
 
-`206.189.233.225` runs the stack now, at **https://206.189.233.225**, using
-`docker-compose.staging.yml`. Caddy terminates TLS with a certificate from its
-own local CA; only ports 80 and 443 are open, and the app, Mailpit and Postgres
-are all loopback-only behind it.
+**https://booths.socallinuxexpo.org** — live, with a real Let's Encrypt
+certificate. Caddy is the only thing listening publicly (80 and 443); the app,
+Mailpit and Postgres are all loopback-only behind it. HTTP redirects to HTTPS
+and HSTS is set for a year.
 
-It differs from production in two ways, both waiting on you:
+`CADDYFILE` in `.env.production` selects the TLS config:
 
-- **The certificate is self-signed**, so browsers warn that it is untrusted.
-  Encryption on the wire is real — magic-link tokens are no longer sent in
-  clear — but nothing proves the server's identity. Verify the fingerprint
-  before clicking through the warning:
+| Value | Serves | Certificate |
+|---|---|---|
+| `./Caddyfile` | `booths.socallinuxexpo.org` | Let's Encrypt (current) |
+| `./Caddyfile.staging` | the bare IP | Caddy's local CA (before DNS) |
 
-  ```
-  SHA-256 35:91:1B:8C:71:CF:3B:42:5A:CA:7C:1F:3E:34:41:08:F8:DC:17:EC:C7:E4:D6:9F:2E:2C:B8:BD:BD:F3:9E:4F
-  ```
+**One thing is still not production:** mail goes to Mailpit on the box, not
+SMTP2GO, so nothing reaches a real inbox. Mailpit is bound to loopback because
+its inbox holds admin sign-in links — read it with a tunnel:
 
-  Clients do not send SNI for a bare IP, so `Caddyfile.staging` sets
-  `default_sni`. Without it the handshake fails before any site block matches.
-- **Mail goes to Mailpit on the box, not SMTP2GO.** Nothing is delivered to a
-  real inbox. Mailpit is bound to loopback because its inbox contains admin
-  sign-in links; read it with an SSH tunnel:
+```bash
+ssh -L 8025:localhost:8025 root@206.189.233.225
+# then open http://localhost:8025
+```
 
-  ```bash
-  ssh -L 8025:localhost:8025 root@206.189.233.225
-  # then open http://localhost:8025
-  ```
+### Finishing it
 
-To promote it to production: point DNS at the host, set `PUBLIC_BASE_URL` to the
-real hostname, set `EMAIL_SENDER=smtp2go` with `SMTP2GO_API_KEY`, swap
-`Caddyfile.staging` for `Caddyfile` (which uses public ACME instead of the local
-CA), and switch to `docker-compose.prod.yml`.
+Once `dotorgs@socallinuxexpo.org` is a verified sender in SMTP2GO, on the host:
+
+```bash
+cd /srv/scale-dotorg
+sed -i 's/^EMAIL_SENDER=.*/EMAIL_SENDER=smtp2go/' .env.production
+echo 'SMTP2GO_API_KEY=...' >> .env.production
+docker compose --env-file .env.production -f docker-compose.staging.yml up -d
+```
+
+The app refuses to boot if `EMAIL_SENDER=smtp2go` without a key, so a typo fails
+loudly rather than silently dropping acceptance mail. Send yourself an admin
+invite as the first real send, before any applicant depends on it. Mailpit can
+then be dropped from the compose file, or left as-is and ignored.
 
 ## First deploy
 

@@ -1,8 +1,11 @@
-# Staging: no DNS, no TLS, no SMTP2GO yet.
+# The deployed stack while mail is still local.
 #
-# Differs from production in two ways, both temporary:
-#   - the app is reachable over plain HTTP on :3000
-#   - mail goes to a local Mailpit instead of SMTP2GO
+# CADDYFILE selects which TLS config Caddy mounts:
+#   ./Caddyfile.staging  bare IP, Caddy's local CA (before DNS)
+#   ./Caddyfile          real hostname, Let's Encrypt (after DNS)
+#
+# The remaining difference from production is mail: it goes to a local Mailpit
+# rather than SMTP2GO, until the API key and sender verification exist.
 #
 # Mailpit is bound to loopback deliberately. Anyone who can read the inbox can
 # read an admin sign-in link, which is the whole authentication system. Reach it
@@ -44,7 +47,7 @@ services:
     restart: unless-stopped
     ports: ['80:80', '443:443']
     volumes:
-      - ./Caddyfile.staging:/etc/caddy/Caddyfile:ro
+      - ${CADDYFILE:-./Caddyfile.staging}:/etc/caddy/Caddyfile:ro
       - caddy-data:/data
       - caddy-config:/config
     depends_on: [app]
