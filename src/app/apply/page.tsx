@@ -1,7 +1,7 @@
 import { ApplyForm } from './ApplyForm'
 import { COPY } from '@/copy'
 import { EVENT } from '@/event'
-import { formatFee, windowState } from '@/domain/settings'
+import { windowState } from '@/domain/settings'
 import { loadSettings } from '@/lib/settings'
 
 export const dynamic = 'force-dynamic'
@@ -38,10 +38,11 @@ export default async function Apply() {
         {EVENT.name} &middot; {EVENT.dates} &middot; {EVENT.venue}
       </p>
       <p className="mt-6 rounded border-l-4 border-scale-gold bg-scale-gold-pale/25 p-4 text-scale-muted">
-        The booth is free. If we accept you and you cancel fewer than 30 days before the event, or
-        do not occupy your booth, a late cancellation fee of{' '}
-        <strong className="text-scale-ink">{formatFee(settings.lateCancellationFeeCents)}</strong>{' '}
-        applies. You will see the full terms and agree to them after we accept you.
+        The booth is free. Holding it takes a{' '}
+        <strong className="text-scale-ink">one-time deposit</strong>, refunded to you at SCaLE once
+        you are set up at your booth. If we accept you and you cancel fewer than 30 days before the
+        event, or do not occupy your booth, we keep it. You will see the full terms and agree to
+        them after we accept you.
       </p>
       <div className="mt-10">
         <ApplyForm />

@@ -1,7 +1,7 @@
 import { Button } from '@/components/Button'
 import { COPY } from '@/copy'
 import { EVENT } from '@/event'
-import { formatFee, windowState } from '@/domain/settings'
+import { windowState } from '@/domain/settings'
 import { loadSettings } from '@/lib/settings'
 
 export const dynamic = 'force-dynamic'
@@ -102,15 +102,13 @@ export default async function Home() {
         </section>
 
         <section className="mt-12 rounded border-l-4 border-scale-gold bg-scale-gold-pale/25 p-6">
-          <h2 className="text-2xl font-bold">The booth is free. Cancelling late is not.</h2>
+          <h2 className="text-2xl font-bold">The booth is free. A deposit holds it.</h2>
           <p className="mt-3 text-scale-muted">
-            Booth space is limited, and every booth we hold is one another project cannot have. If
-            you cancel fewer than 30 days before the event, or do not occupy your booth during the
-            show, a late cancellation fee of{' '}
-            <strong className="text-scale-ink">
-              {formatFee(settings.lateCancellationFeeCents)}
-            </strong>{' '}
-            applies. You will see the full terms and agree to them after we accept your application.
+            Booth space is limited, and every booth we hold is one another project cannot have. So
+            we ask for a <strong className="text-scale-ink">one-time deposit</strong> to hold yours,
+            refunded to you at SCaLE once you are set up at your booth. If you cancel fewer than 30
+            days before the event, or do not occupy your booth during the show, we keep it. You will
+            see the full terms and agree to them after we accept your application.
           </p>
         </section>
 

@@ -39,7 +39,8 @@ describe('DEFAULT_TERMS_TEXT', () => {
     expect(DEFAULT_TERMS_TEXT).toContain('dotorgs@socallinuxexpo.org')
   })
 
-  it('does not hardcode the fee amount', () => {
-    expect(DEFAULT_TERMS_TEXT).toContain('{{fee}}')
+  it('describes the deposit without naming an amount', () => {
+    expect(DEFAULT_TERMS_TEXT).toContain('one-time deposit')
+    expect(DEFAULT_TERMS_TEXT).not.toMatch(/\$\d/)
   })
 })

@@ -36,7 +36,7 @@ test('an admin can edit an email template', async ({ page, request }) => {
 
   await page.getByText('Application accepted').click()
   await expect(page.locator('#accepted-subject')).toBeVisible()
-  await expect(page.locator('#accepted-body')).toContainText('{{fee}}')
+  await expect(page.locator('#accepted-body')).toContainText('{{portal_url}}')
 })
 
 test('the admin list shows the seeded admin and refuses self-deactivation', async ({ page, request }) => {

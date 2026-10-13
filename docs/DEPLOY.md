@@ -186,7 +186,7 @@ you ever need to inspect the queue before it drains.
   leaves the decision to a person.
 - **Acceptance does not confirm a booth.** The organization confirms, and that
   records who agreed, when, and a frozen copy of the exact terms text. That
-  record is what a disputed $1,000 fee would rest on.
+  record is what a disputed deposit would rest on.
 - **Rate limits are per-process and in memory.** They reset when the container
   restarts and are not shared if you ever run more than one app container. At a
   few hundred applications a year that is fine; if it stops being fine, move the
