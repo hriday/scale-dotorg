@@ -143,12 +143,59 @@ gunzip -c backups/booths-YYYYMMDD-HHMMSS.sql.gz | \
 
 Test a restore into a scratch database before you need one for real.
 
-## Updating
+## The host is shared — never overwrite its Caddyfile
+
+`booths.socallinuxexpo.org` is not alone on that box. The same Caddy instance
+also serves **perankh.tech**, proxied to `perankh-app:3000`, from a second site
+block in `/srv/scale-dotorg/Caddyfile`. That block exists only on the host; it
+is not in this repository and must not be added to it.
+
+So the live Caddyfile is *this repo's Caddyfile plus a block for an unrelated
+project*. Anything that restores `Caddyfile` from git — `git pull` across a
+commit that touches it, `git checkout -- Caddyfile`, `git stash`, a fresh clone
+over the top — takes perankh.tech offline.
+
+Before touching that file, back it up and diff it:
 
 ```bash
-cd /srv/scale-dotorg
-git pull
-docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
+cp Caddyfile Caddyfile.bak-$(date +%Y%m%d%H%M)
+diff <(git show HEAD:Caddyfile) Caddyfile
+```
+
+`docker-compose.staging.yml` carries no such divergence; it matches the
+committed version byte for byte.
+
+## Updating
+
+The host at `/srv/scale-dotorg` is **not a git clone of anything**. It has no
+remote, its HEAD sits at `b03ff9a`, and its tree is owned by `501:staff` —
+uids carried over from the Mac it was copied from, which is why `git` as root
+reports *dubious ownership*. Its Caddyfile is modified as described above.
+
+The repository now lives at `git@github.com:hriday/scale-dotorg.git` (private).
+Until the host is given a deploy key and re-pointed at that origin, update it by
+copying only the files that changed:
+
+```bash
+# from the Mac, for a change confined to application source
+cd ~/code/scale-dotorg
+rsync -avR --no-owner --no-group \
+  ./src/app/page.tsx ./src/domain/settings.ts \
+  root@booths.socallinuxexpo.org:/srv/scale-dotorg/
+
+ssh root@booths.socallinuxexpo.org \
+  'cd /srv/scale-dotorg && docker compose --env-file .env.production \
+   -f docker-compose.prod.yml up -d --build'
+```
+
+Naming the files explicitly is the point: it cannot reach `Caddyfile`,
+`.env.production` or `backups/`.
+
+When the host is eventually converted to a real clone, protect the local
+Caddyfile first, or the first pull will undo perankh.tech:
+
+```bash
+git update-index --skip-worktree Caddyfile
 ```
 
 Migrations run automatically at container start, before the server accepts
