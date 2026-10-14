@@ -24,15 +24,8 @@ export function windowState(settings: ApplicationWindow, now: Date): WindowState
   return 'open'
 }
 
-export function formatFee(cents: number): string {
-  const dollars = cents / 100
-  return dollars % 1 === 0
-    ? `$${dollars.toLocaleString('en-US')}`
-    : `$${dollars.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-}
-
 export const DEFAULT_TERMS_TEXT = `SCaLE provides community booth space, power, and basic booth furnishings at no cost to your organization. In accepting a booth you agree to staff it during all expo floor hours and to notify us as early as possible if your plans change.
 
-Booth space is limited and every booth we hold is one that another project cannot have. Holding a booth takes a one-time deposit, which we refund to you at SCaLE once you are set up at your booth. If you cancel fewer than 30 days before the event, or do not occupy your booth during the show, the deposit is forfeited. Cancellations must be made in writing to dotorgs@socallinuxexpo.org.
+Booth space is limited and every booth we hold is one that another project cannot have. If you cannot attend, tell us as early as you can, in writing to dotorgs@socallinuxexpo.org. Cancelling early costs you nothing and lets us offer the space to another project. Not showing up leaves an empty booth on the floor that nobody can use.
 
-We would always rather hear from you early than keep a deposit. Tell us as soon as you know.`
+We would always rather hear from you early. Tell us as soon as you know.`

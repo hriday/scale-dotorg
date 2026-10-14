@@ -32,8 +32,6 @@ export async function saveSettings(
     const boothCap = Number(formData.get('boothCap'))
     if (!Number.isInteger(boothCap) || boothCap < 0) throw new Error('Booth cap must be a whole number.')
 
-    const feeDollars = Number(formData.get('feeDollars'))
-    if (!Number.isFinite(feeDollars) || feeDollars < 0) throw new Error('The fee must be a number.')
 
     const termsText = String(formData.get('termsText') ?? '').trim()
     if (termsText.length < 20) throw new Error('The terms text cannot be empty.')
@@ -63,7 +61,6 @@ export async function saveSettings(
           applicationsOpenAt: openAt,
           applicationsCloseAt: closeAt,
           boothCap,
-          lateCancellationFeeCents: Math.round(feeDollars * 100),
           termsText,
           termsVersion: termsChanged ? current.termsVersion + 1 : current.termsVersion,
           expoHours,
@@ -76,7 +73,7 @@ export async function saveSettings(
         actorType: 'admin',
         actorId: admin.id,
         action: 'settings.updated',
-        detail: { termsChanged, boothCap, feeDollars },
+        detail: { termsChanged, boothCap },
       })
     })
   } catch (error) {

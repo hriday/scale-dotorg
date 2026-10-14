@@ -5,7 +5,6 @@ import { revalidatePath } from 'next/cache'
 import { getDb } from '@/db/client'
 import { applications, auditLog, emailTemplates, internalNotes, messages } from '@/db/schema'
 import { DECISION_TEMPLATE_KEYS, transitionApplication, type Status } from '@/domain/application'
-import { formatFee } from '@/domain/settings'
 import { getEnv } from '@/env'
 import { EVENT } from '@/event'
 import { loadSettings } from '@/lib/settings'
@@ -99,7 +98,6 @@ export async function defaultDecisionEmail(
     org_name: application.orgName,
     event: EVENT.name,
     contact_email: EVENT.contactEmail,
-    fee: formatFee(settings.lateCancellationFeeCents),
     portal_url: `${getEnv().PUBLIC_BASE_URL}/portal`,
   })
 

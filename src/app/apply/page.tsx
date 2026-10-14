@@ -38,11 +38,11 @@ export default async function Apply() {
         {EVENT.name} &middot; {EVENT.dates} &middot; {EVENT.venue}
       </p>
       <p className="mt-6 rounded border-l-4 border-scale-gold bg-scale-gold-pale/25 p-4 text-scale-muted">
-        The booth is free. Holding it takes a{' '}
-        <strong className="text-scale-ink">one-time deposit</strong>, refunded to you at SCaLE once
-        you are set up at your booth. If we accept you and you cancel fewer than 30 days before the
-        event, or do not occupy your booth, we keep the deposit. You will see the full terms and
-        agree to them after we accept you.
+        The booth is free. All we ask is that someone is at it during expo floor hours. If your
+        plans change,{' '}
+        <strong className="text-scale-ink">tell us as early as you can</strong> — an empty booth is
+        one another project could have used. You will see the full terms and agree to them after we
+        accept you.
       </p>
       <div className="mt-10">
         <ApplyForm />

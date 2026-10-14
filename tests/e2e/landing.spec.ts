@@ -10,8 +10,8 @@ test('the landing page explains the program and the terms', async ({ page }) => 
   await expect(page.getByRole('heading', { name: /what scale provides/i })).toBeVisible()
   await expect(page.getByRole('heading', { name: /what we ask/i })).toBeVisible()
 
-  await expect(page.getByText('one-time deposit').first()).toBeVisible()
-  await expect(page.getByText(/refunded to you at SCaLE/i).first()).toBeVisible()
+  await expect(page.getByText('tell us as early as you can').first()).toBeVisible()
+  await expect(page.getByText(/empty booth on the floor/i).first()).toBeVisible()
 
   await expect(page.getByText('Friday, April 2')).toBeVisible()
   await expect(page.getByText('1:00 pm')).toBeVisible()

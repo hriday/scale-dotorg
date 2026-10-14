@@ -102,14 +102,14 @@ export default async function Home() {
         </section>
 
         <section className="mt-12 rounded border-l-4 border-scale-gold bg-scale-gold-pale/25 p-6">
-          <h2 className="text-2xl font-bold">The booth is free. A deposit holds it.</h2>
+          <h2 className="text-2xl font-bold">The booth is free. Showing up is the deal.</h2>
           <p className="mt-3 text-scale-muted">
             Booth space is limited, and every booth we hold is one that another project cannot
-            have. So we ask for a <strong className="text-scale-ink">one-time deposit</strong> to
-            hold yours, refunded to you at SCaLE once you are set up at your booth. If you cancel
-            fewer than 30 days before the event, or do not occupy your booth during the show, we
-            keep the deposit. You will see the full terms and agree to them after we accept your
-            application.
+            have. If your plans change,{' '}
+            <strong className="text-scale-ink">tell us as early as you can</strong> — it costs you
+            nothing and lets us offer the space to someone else. What we cannot do anything about
+            is an empty booth on the floor. You will see the full terms and agree to them after we
+            accept your application.
           </p>
         </section>
 

@@ -25,7 +25,6 @@ export default async function SettingsPage() {
           applicationsOpenAt: forInput(settings.applicationsOpenAt),
           applicationsCloseAt: forInput(settings.applicationsCloseAt),
           boothCap: settings.boothCap,
-          feeDollars: settings.lateCancellationFeeCents / 100,
           termsText: settings.termsText,
           expoHours: settings.expoHours,
         }}

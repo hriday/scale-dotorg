@@ -14,7 +14,6 @@ export function SettingsForm({
     applicationsOpenAt: string
     applicationsCloseAt: string
     boothCap: number
-    feeDollars: number
     termsText: string
     expoHours: { day: string; opens: string; closes: string }[]
   }
@@ -49,12 +48,6 @@ export function SettingsForm({
           <label htmlFor="boothCap" className="block font-semibold">Booth cap</label>
           <p className="mt-1 text-sm text-scale-muted">Shown on the dashboard. Never auto-rejects.</p>
           <input id="boothCap" name="boothCap" type="number" min={0} defaultValue={settings.boothCap} className={input} />
-        </div>
-        <div>
-          <label htmlFor="feeDollars" className="block font-semibold">Late cancellation fee (USD)</label>
-          <p className="mt-1 text-sm text-scale-muted">Shown on the public page and in emails.</p>
-          <input id="feeDollars" name="feeDollars" type="number" min={0} step="0.01"
-            defaultValue={settings.feeDollars} className={input} />
         </div>
       </div>
 

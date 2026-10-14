@@ -56,14 +56,12 @@ export const DEFAULT_TEMPLATES: TemplateDefinition[] = [
       `Good news \u2014 we have a community booth for {{org_name}} at {{event}}.\n\n` +
       `Please confirm the booth and the booth terms here:\n\n` +
       `{{portal_url}}\n\n` +
-      `The booth is free. Holding it takes a one-time deposit, which we refund to you at SCaLE ` +
-      `once you are set up at your booth. If you cancel fewer than 30 days before the event, or ` +
-      `do not occupy your booth during the show, the deposit is forfeited. The full terms are on ` +
-      `that page.\n\n` +
-      `We would always rather hear from you early than keep a deposit, so tell us as soon as ` +
-      `you know if anything changes.` +
+      `The booth is free. All we ask is that someone is at it during expo floor hours. If ` +
+      `anything changes, tell us as early as you can — it costs you nothing and lets another ` +
+      `project use the space. What we cannot do anything about is an empty booth on the floor. ` +
+      `The full terms are on that page.` +
       SIGNOFF,
-    variables: ['contact_name', 'org_name', 'event', 'portal_url', 'fee', 'contact_email'],
+    variables: ['contact_name', 'org_name', 'event', 'portal_url', 'contact_email'],
   },
   {
     key: 'rejected',

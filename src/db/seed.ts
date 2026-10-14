@@ -20,7 +20,6 @@ async function main() {
       applicationsOpenAt: new Date('2026-09-01T00:00:00Z'),
       applicationsCloseAt: new Date('2027-01-15T23:59:59Z'),
       boothCap: 40,
-      lateCancellationFeeCents: 100_000,
       termsText: DEFAULT_TERMS_TEXT,
       termsVersion: 1,
       expoHours: [...DEFAULT_EXPO_HOURS],
@@ -32,8 +31,7 @@ async function main() {
         applicationsOpenAt: new Date('2026-09-01T00:00:00Z'),
         applicationsCloseAt: new Date('2027-01-15T23:59:59Z'),
         boothCap: 40,
-        lateCancellationFeeCents: 100_000,
-        termsText: DEFAULT_TERMS_TEXT,
+          termsText: DEFAULT_TERMS_TEXT,
         expoHours: [...DEFAULT_EXPO_HOURS],
       },
     })

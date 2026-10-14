@@ -65,7 +65,6 @@ export const settings = pgTable(
     applicationsOpenAt: timestamp('applications_open_at', { withTimezone: true }).notNull(),
     applicationsCloseAt: timestamp('applications_close_at', { withTimezone: true }).notNull(),
     boothCap: integer('booth_cap').notNull().default(40),
-    lateCancellationFeeCents: integer('late_cancellation_fee_cents').notNull().default(100000),
     termsText: text('terms_text').notNull(),
     termsVersion: integer('terms_version').notNull().default(1),
     expoHours: jsonb('expo_hours').$type<ExpoHours>().notNull().default([]),

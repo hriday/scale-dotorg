@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { DEFAULT_TERMS_TEXT, formatFee, windowState } from '@/domain/settings'
+import { DEFAULT_TERMS_TEXT, windowState } from '@/domain/settings'
 
 const window = {
   applicationsOpenAt: new Date('2026-10-01T00:00:00Z'),
@@ -24,23 +24,14 @@ describe('windowState', () => {
   })
 })
 
-describe('formatFee', () => {
-  it('renders whole dollars without cents', () => {
-    expect(formatFee(100000)).toBe('$1,000')
-  })
-
-  it('renders partial dollars with cents', () => {
-    expect(formatFee(99950)).toBe('$999.50')
-  })
-})
-
 describe('DEFAULT_TERMS_TEXT', () => {
   it('names the contact address', () => {
     expect(DEFAULT_TERMS_TEXT).toContain('dotorgs@socallinuxexpo.org')
   })
 
-  it('describes the deposit without naming an amount', () => {
-    expect(DEFAULT_TERMS_TEXT).toContain('one-time deposit')
+  it('asks for early notice and names no charge', () => {
+    expect(DEFAULT_TERMS_TEXT).toContain('tell us as early as you can')
     expect(DEFAULT_TERMS_TEXT).not.toMatch(/\$\d/)
+    expect(DEFAULT_TERMS_TEXT).not.toMatch(/fee|deposit|forfeit/i)
   })
 })

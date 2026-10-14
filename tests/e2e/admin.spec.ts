@@ -61,13 +61,13 @@ test('an admin accepts an application and the acceptance email is queued', async
 
   await page.getByLabel('Move to').selectOption('accepted')
   await expect(page.getByLabel('Subject')).toHaveValue(/community booth/i)
-  await expect(page.getByLabel('Message')).toContainText('one-time deposit')
+  await expect(page.getByLabel('Message')).toContainText('tell us as early as you can')
 
   await page.getByRole('button', { name: /apply decision/i }).click()
   await expect(page.locator('#decision-done')).toBeVisible()
 
   await request.post('/api/dev/dispatch')
-  expect(await latestEmailText('contact@debian.org')).toContain('one-time deposit')
+  expect(await latestEmailText('contact@debian.org')).toContain('tell us as early as you can')
 })
 
 test('an internal move offers no email', async ({ page, request }) => {

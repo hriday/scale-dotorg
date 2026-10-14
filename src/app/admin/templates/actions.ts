@@ -18,7 +18,6 @@ const SAMPLE: Record<string, string> = {
   org_name: 'The Debian Project',
   event: 'SCaLE 24x',
   contact_email: 'dotorgs@socallinuxexpo.org',
-  fee: '$1,000',
   portal_url: 'https://example.org/portal',
   admin_url: 'https://example.org/admin/applications/123',
 }
