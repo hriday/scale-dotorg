@@ -172,7 +172,7 @@ remote, its HEAD sits at `b03ff9a`, and its tree is owned by `501:staff` —
 uids carried over from the Mac it was copied from, which is why `git` as root
 reports *dubious ownership*. Its Caddyfile is modified as described above.
 
-The repository now lives at `git@github.com:hriday/scale-dotorg.git` (private).
+The repository now lives at `git@github.com:hriday/scale-dotorg.git`.
 Until the host is given a deploy key and re-pointed at that origin, update it by
 copying only the files that changed:
 

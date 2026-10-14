@@ -71,3 +71,7 @@ See [docs/DEPLOY.md](docs/DEPLOY.md).
 - [Design spec](docs/superpowers/specs/2026-09-19-scale-dotorg-booths-design.md)
 - [Plan A — foundation and public application](docs/superpowers/plans/2026-09-19-plan-a-foundation-and-public-application.md)
 - [Plan B — portal and admin review](docs/superpowers/plans/2026-09-20-plan-b-portal-and-admin-review.md)
+
+## License
+
+MIT. See [LICENSE](LICENSE).
