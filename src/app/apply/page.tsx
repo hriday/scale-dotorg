@@ -41,8 +41,8 @@ export default async function Apply() {
         The booth is free. Holding it takes a{' '}
         <strong className="text-scale-ink">one-time deposit</strong>, refunded to you at SCaLE once
         you are set up at your booth. If we accept you and you cancel fewer than 30 days before the
-        event, or do not occupy your booth, we keep it. You will see the full terms and agree to
-        them after we accept you.
+        event, or do not occupy your booth, we keep the deposit. You will see the full terms and
+        agree to them after we accept you.
       </p>
       <div className="mt-10">
         <ApplyForm />
